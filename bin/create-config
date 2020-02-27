@@ -65,7 +65,7 @@ function createConfig() {
 
   if (!!process.env.SMTP_HOST) {
     mail = {
-      from: process.env.SMPTP_FROM,
+      from: process.env.SMTP_FROM,
       transport: "SMTP",
       options: {
         host: process.env.SMTP_HOST,
