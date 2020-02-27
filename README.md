@@ -2,14 +2,14 @@
 
 Ghost is a free, open, simple blogging platform. Visit the project's website at <http://ghost.org>, or read the docs on <http://support.ghost.org>.
 
-[![GitHub issues](https://img.shields.io/github/issues/SNathJr/ghost-on-heroku)](https://github.com/SNathJr/ghost-on-heroku/issues)
-[![GitHub forks](https://img.shields.io/github/forks/SNathJr/ghost-on-heroku)](https://github.com/SNathJr/ghost-on-heroku/network)
-[![GitHub stars](https://img.shields.io/github/stars/SNathJr/ghost-on-heroku)](https://github.com/SNathJr/ghost-on-heroku/stargazers)
-[![Deploy to Heroku](https://img.shields.io/badge/deploy%20to-heroku-6762a6)](https://heroku.com/deploy)
+[![GitHub issues](https://img.shields.io/github/issues/frederic2ec/ghost-on-heroku)](https://github.com/frederic2ec/ghost-on-heroku/issues)
+[![GitHub forks](https://img.shields.io/github/forks/frederic2ec/ghost-on-heroku)](https://github.com/frederic2ec/ghost-on-heroku/network)
+[![GitHub stars](https://img.shields.io/github/stars/frederic2ec/ghost-on-heroku)](https://github.com/frederic2ec/ghost-on-heroku/stargazers)
+[![Deploy to Heroku](https://img.shields.io/badge/deploy%20to-heroku-6762a6)](https://heroku.com/deploy?template=https://github.com/frederic2ec/ghost-on-heroku)
 
 ## Disclaimer
 
-This is a fork with some improvements from https://github.com/cobyism/ghost-on-heroku. I have forked and improved this repository as the original developer seemed to have abandoned his repo recently. In this repository I have upgraded ghost to ghost 3.X and added cloudinary as a free storage alternative to amazon's s3. If you are still interested with the ghost 1.0 version please visit the original repository.
+This is a fork with some improvements from https://github.com/SNathJR/ghost-on-heroku. I have forked and improved this repository. In this repository I have remove the default mailgun and cloudinary and give access to add custom SMTP server and S3 endpoint for third-party S3 provider (like digitalocea).
 
 ## Ghost version 3.X
 
@@ -19,14 +19,13 @@ The latest release of Ghost is now supported! Changes include:
   - [JawsDB](https://elements.heroku.com/addons/jawsdb) (deploy default)
   - [ClearDB](https://elements.heroku.com/addons/cleardb)
 - `PUBLIC_URL` config var renamed to `APP_PUBLIC_URL` to give it alphabetical precedence
-- The app is configured to use `Cloudinary File Storage` by default.
 - Dark Mode on `casper` theme! Please make sure to activate your system's dark-mode first.
 
 ### Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/frederic2ec/ghost-on-heroku)
 
-If the above button does not work for you, disable anything that might be blocking Heroku from inferring the referrer (e.g. Brave shield), or try this: https://heroku.com/deploy?template=https://github.com/snathjr/ghost-on-heroku (if you're using a fork, make sure to point the template link to your repo).
+If the above button does not work for you, disable anything that might be blocking Heroku from inferring the referrer (e.g. Brave shield), or try this: https://heroku.com/deploy?template=https://github.com/frederic2ec/ghost-on-heroku (if you're using a fork, make sure to point the template link to your repo).
 
 **NOTE**: we do _not_ support deploying by downloading the source file or by copying over a cloned folder. Downloading/copying folders tends to break symlinks, so we recommend that you deploy by clicking the button in this repository or your fork on GitHub.
 
@@ -54,6 +53,7 @@ If your Ghost app needs to support substantial traffic, then use a CDN add-on:
 
 - [Fastly](https://elements.heroku.com/addons/fastly)
 - [Edge](https://elements.heroku.com/addons/edge).
+- [Cloudflare](https://www.cloudflare.com/)
 
 #### Configuring S3 file uploads
 
@@ -66,6 +66,8 @@ The blog is configured to use Cloudinary file storage by default. If you want to
 - `S3_BUCKET_REGION`: **Required if using S3 uploads**. Specify the region the bucket has been created in, using slug format (e.g. `us-east-1`, `eu-west-1`). A full list of S3 regions is [available here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
 
 - `S3_ASSET_HOST_URL`: Optional, even if using S3 uploads. Use this variable to specify the S3 bucket URL in virtual host style, path style or using a custom domain. You should also include a trailing slash (example `https://my.custom.domain/`). See [this page](http://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html) for details.
+
+- `S3_BUCKET_ENDPOINT`: Optional, even if using S3 uploads. Use this variable to specify the S3 bucket endpoint of your S3 provider.
 
 Once your app is up and running with these variables in place, you should be able to upload images via the Ghost interface and they’ll be stored in Amazon S3. :sparkles:
 
@@ -88,11 +90,17 @@ heroku config:set S3_BUCKET_REGION=us-east-1 --app YOURAPPNAME
 
 #### Setting up SMTP service
 
-When you spin up your heroku dyno for the first time, mailgun is by default setup with a sandbox account. It means, sending emails to only authorized reciepients is supported. If you want to send emails / invite your collaborators you need to set their email in authorized recipient section on mailgun dashboard. See https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients for more.
+When you spin up your heroku dyno for the first time, no mail server is configured. Alternatively you can use solution like Mailgun or use your own SMTP server.
 
-A more permanent solution would be to use a custom domain and verify your domain via mailgun customer support. Cheers!
+- `SMTP_FROM` : Email from the message are sent
 
-FYI: You can access mailgun dashboard by visiting heroku dashboard > click on your app > resources tab > click on mailgun addon.
+- `SMTP_HOST`: Host of the SMTP server
+
+- `SMTP_PORT`: Port of the SMTP server
+
+- `SMTP_LOGIN`: Login of the SMTP server
+
+- `SMTP_PASSWORD`: Password of the SMTP server
 
 #### Dark Mode is now available
 
@@ -111,7 +119,7 @@ This repository is a [Node.js](https://nodejs.org) web application that specifie
 Optionally after deployment, to push Ghost upgrades or work with source code, clone this repo (or a fork) and connect it with the Heroku app:
 
 ```bash
-git clone https://github.com/snathjr/ghost-on-heroku
+git clone https://github.com/frederic2ec/ghost-on-heroku
 cd ghost-on-heroku
 
 heroku git:remote -a YOURAPPNAME
@@ -152,7 +160,7 @@ If you're worried about packages beyond the root `ghost` server being outdated, 
 
 If you have problems using your instance of Ghost, you should check the [official documentation](http://support.ghost.org/) or
 open an issue on [the official issue tracker](https://github.com/TryGhost/Ghost/issues). If you discover an issue with the
-deployment process provided by _this repository_, then [open an issue here](https://github.com/snathjr/ghost-on-heroku).
+deployment process provided by _this repository_, then [open an issue here](https://github.com/frederic2ec/ghost-on-heroku).
 
 ## License
 

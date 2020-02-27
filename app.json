@@ -2,15 +2,13 @@
   "name": "Ghost on Heroku",
   "description": "Just a blogging platform",
   "logo": "https://cdn.rawgit.com/TryGhost/Ghost-Admin/61fe83dff375a145d5272a5382aa2c72bd994830/public/assets/img/large.png",
-  "repository": "https://github.com/snathjr/ghost-on-heroku",
+  "repository": "https://github.com/frederic2ec/ghost-on-heroku",
   "scripts": {
     "postdeploy": "bin/init-deployment"
   },
   "success_url": "/ghost",
   "addons": [
-    "jawsdb",
-    "mailgun",
-    "cloudinary"
+    "jawsdb"
   ],
   "env": {
     "APP_PUBLIC_URL": {
@@ -33,8 +31,32 @@
       "description": "Region of your S3 bucket on AWS, if using S3 file storage.",
       "required": false
     },
+    "S3_BUCKET_ENDPOINT": {
+      "description": "Endpoint of your S3 bucket if you use third party provider, if using S3 file storage.",
+      "required": false
+    },
     "S3_ASSET_HOST_URL": {
       "description": "Optional custom CDN asset host url, if using S3 file storage.",
+      "required": false
+    },
+    "SMTP_FROM": {
+      "description": "Email from the message are sent, if using SMTP mail",
+      "required": false
+    },
+    "SMTP_HOST": {
+      "description": "Host of the SMTP server, if using SMTP mail",
+      "required": false
+    },
+    "SMTP_PORT": {
+      "description": "Port of the SMTP server, if using SMTP mail",
+      "required": false
+    },
+    "SMTP_LOGIN": {
+      "description": "Login of the SMTP server, if using SMTP mail",
+      "required": false
+    },
+    "SMTP_PASSWORD": {
+      "description": "Password of the SMTP server, if using SMTP mail",
       "required": false
     }
   }
